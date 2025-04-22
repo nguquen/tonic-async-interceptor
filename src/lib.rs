@@ -171,7 +171,8 @@ fn decompose<ReqBody>(req: http::Request<ReqBody>) -> (DecomposedRequest<ReqBody
     let method = req.method().clone();
     let http_version = req.version();
     let req = Request::from_http(req);
-    let (metadata, extensions, msg) = request_into_parts(req);
+    let (metadata, mut extensions, msg) = request_into_parts(req);
+    extensions.insert(uri.to_owned());
 
     let dreq = DecomposedRequest {
         uri,
